@@ -1,5 +1,7 @@
 package ru.vo1kov.scaenicos.presenter;
 
+import android.content.SharedPreferences;
+
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,9 +27,11 @@ public class ArtistsPresenter implements Presenter {
 
     private View view;
     private Subscription subscription = Subscriptions.empty();
-
-    public ArtistsPresenter(View view) {
+    private SharedPreferences preferences;
+    public ArtistsPresenter(View view, SharedPreferences preferences) {
         this.view = view;
+       this.preferences = preferences;
+
     }
 
     @Override
@@ -38,7 +42,7 @@ public class ArtistsPresenter implements Presenter {
         }
 
 
-        subscription = model.getArtists().observeOn(AndroidSchedulers.mainThread())
+        subscription = model.getArtists(preferences).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onCompleted() {

@@ -1,5 +1,5 @@
 package ru.vo1kov.scaenicos.model;
-
+import android.content.SharedPreferences;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -15,39 +15,39 @@ import rx.schedulers.Schedulers;
  */
 public class ModelImpl implements Model {
 
-    private String runSync() throws IOException {
+    private String runSync(SharedPreferences preferences) throws IOException {
+        String result = preferences.getString("JSON", null); //примитивная реализация кеша через SharedPreferences
 
-        //int cacheSize = 10 * 1024 * 1024; // 10 MiB
-        //Cache cache = new Cache(getCacheDir(), cacheSize);
-
-        OkHttpClient client = new OkHttpClient.Builder()
-                //.cache(cache) //использовтаь кеш http клиента не удалось изза настроек сервера CDN
-                .build();
-
-
-        Request request = new Request.Builder()
-                .url("http://download.cdn.yandex.net/mobilization-2016/artists.json")
-                .build();
+        if(result==null) {
+            OkHttpClient client = new OkHttpClient.Builder()
+                    //.cache(cache) //использовтаь кеш http клиента не удалось из-за настроек сервера CDN
+                    .build();
 
 
-        //String cachePath = getApplicationContext().getCacheDir().getPath();
-        //File cacheFile = new File(cachePath + File.separator + BuildConfig.APPLICATION_ID);
+            Request request = new Request.Builder()
+                    .url("http://download.cdn.yandex.net/mobilization-2016/artists.json")
+                    .build();
 
-        //DiskCache diskCache = new DiskCache(cacheFile, BuildConfig.VERSION_CODE, 1024 * 1024 * 10);
 
+            Response response = client.newCall(request).execute();
+            result =  response.body().string();
 
-        Response response = client.newCall(request).execute();
-        return response.body().string();
+            SharedPreferences.Editor ed = preferences.edit();
+            ed.putString("JSON", result);
+            ed.commit();
+        }
+        return result;
     }
 
     @Override
-    public Observable<String> getArtists() {
+    public Observable<String> getArtists(SharedPreferences preferences) {
+        final SharedPreferences preferences1 = preferences;
         return Observable.create(
                 new Observable.OnSubscribe<String>() {
                     @Override
                     public void call(Subscriber<? super String> sub) {
                         try {
-                            sub.onNext(runSync());
+                            sub.onNext(runSync(preferences1));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
