@@ -11,7 +11,7 @@ import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by vo1kov on 24.04.16.
+ * Получаем данные с сервера или из кэша
  */
 public class ModelImpl implements Model {
 
@@ -32,13 +32,19 @@ public class ModelImpl implements Model {
             Response response = client.newCall(request).execute();
             result =  response.body().string();
 
-            SharedPreferences.Editor ed = preferences.edit();
-            ed.putString("JSON", result);
-            ed.commit();
+            if(result!=null) {//если удалось получить ответ запишем в кэш
+                SharedPreferences.Editor ed = preferences.edit();
+                ed.putString("JSON", result);
+                ed.commit();
+            }
         }
         return result;
     }
 
+
+    /**
+     * Подписываемся на события получения списка
+     */
     @Override
     public Observable<String> getArtists(SharedPreferences preferences) {
         final SharedPreferences preferences1 = preferences;

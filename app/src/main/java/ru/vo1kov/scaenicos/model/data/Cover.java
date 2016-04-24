@@ -4,11 +4,9 @@ package ru.vo1kov.scaenicos.model.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//import javax.annotation.Generated;
-//import org.apache.commons.lang.builder.EqualsBuilder;
-//import org.apache.commons.lang.builder.HashCodeBuilder;
-//import org.apache.commons.lang.builder.ToStringBuilder;
-
+/**
+ * Для генерация классов ДАО исползовал сервис sonschema2pojo
+ */
 public class Cover {
 
     @SerializedName("small")

@@ -17,15 +17,15 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.Subscriptions;
 
 /**
- * Created by vo1kov on 24.04.16.
+ * Реализация презентера
  */
 
 
 public class ArtistsPresenter implements Presenter {
 
-    private Model model = new ModelImpl();
+    private Model model = new ModelImpl(); //экземпляр модели для получения данных
 
-    private View view;
+    private View view; // сслыка на Activity
     private Subscription subscription = Subscriptions.empty();
     private SharedPreferences preferences;
     public ArtistsPresenter(View view, SharedPreferences preferences) {
@@ -35,12 +35,11 @@ public class ArtistsPresenter implements Presenter {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoad() {//подписываемся на получение данных
 
         if (!subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
-
 
         subscription = model.getArtists(preferences).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -60,18 +59,20 @@ public class ArtistsPresenter implements Presenter {
 
                             ArrayList<Artist> artists = (new GsonBuilder()).create()
                                     .fromJson(data, new TypeToken<ArrayList<Artist>>() {
-                                    }.getType());
+                                    }.getType());//десереализуем JSON при помощи GSON
 
                             view.showList(artists);
                         } else {
-                            view.showEmptyList();
+                            view.showEmptyList();//если ничего не скачается выведем уведомление
                         }
                     }
                 });
     }
 
+
+
     @Override
-    public void onStop() {
+    public void onStop() {//отписываемся при остановке
         if (!subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }

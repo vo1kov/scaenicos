@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import rx.Observable;
 
 /**
- * Created by vo1kov on 24.04.16.
+ * Интерфейс модели
  */
 public interface Model {
-        Observable<String> getArtists(SharedPreferences preferences);
+        Observable<String> getArtists(SharedPreferences preferences);//получаем строку с JSON ответом сервера
 }

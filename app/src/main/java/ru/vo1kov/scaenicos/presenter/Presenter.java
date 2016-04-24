@@ -1,9 +1,8 @@
 package ru.vo1kov.scaenicos.presenter;
 
 /**
- * Created by vo1kov on 24.04.16.
+ * Интерфейс презентера
  */
-
 public interface Presenter {
     void onLoad();
     void onStop();

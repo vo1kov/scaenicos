@@ -16,22 +16,18 @@ import ru.vo1kov.scaenicos.R;
 import ru.vo1kov.scaenicos.model.data.Artist;
 
 /**
- * Created by vo1kov on 19.04.16.
+ * Адаптер для RecyclerView для отображения списка исполнителей
  */
-
 public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(Artist item);
     }
 
-    ArrayList<Artist> artists;
+    ArrayList<Artist> artists; //данные
     Context context;
     private final OnItemClickListener listener;
 
-
-
-    // Provide a suitable constructor (depends on the kind of dataset)
     public ArtistsAdapter(ArrayList<Artist> _artists, Context _context, OnItemClickListener _listener) {
         artists = _artists;
         context = _context;
@@ -43,22 +39,17 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.artists_layout, viewGroup, false);
         return new ViewHolder(v, i);
     }
-
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         holder.artistTextView.setText(artists.get(position).getName());
         holder.genresTextView.setText(artists.get(position).getGenresString());
         holder.countTextView.setText(artists.get(position).getCountString());
 
-        Picasso.with(context).load(artists.get(position).getCover().getSmall()).into(holder.coverImageView);
+        Picasso.with(context).load(artists.get(position).getCover().getSmall()).into(holder.coverImageView);//грузим картинки в отдельном потоке используя picasso, она же сделает кэш в памяти и на диске
 
         holder.bind(artists.get(position), listener);
     }
-
-    // Return the size of your dataset (invoked by the layout manager)
+    
     @Override
     public int getItemCount() {
         return artists.size();

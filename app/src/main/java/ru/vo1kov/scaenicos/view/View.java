@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import ru.vo1kov.scaenicos.model.data.Artist;
 
 /**
- * Created by vo1kov on 24.04.16.
+ * Интерфейс вью
  */
 public interface View {
     void showList(ArrayList<Artist> artists);

@@ -23,7 +23,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            ab.setTitle(intent.getExtras().getString("name"));
+            ab.setTitle(intent.getExtras().getString("name"));//выведем имя исполнителя в заголовок
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -36,7 +36,7 @@ public class DetailsActivity extends AppCompatActivity {
         Picasso.with(getApplicationContext())
                 .load(intent.getExtras().getString("url"))
                 .fit().centerCrop()
-                .into(cover);
+                .into(cover);// обрежем картинку в соответсвии с макетом
 
         if (textViewBio != null)
             textViewBio.setText(intent.getExtras().getString("bio"));
@@ -53,7 +53,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch (item.getItemId()) { //кнопка назад на actionbar е
             case android.R.id.home:
                 onBackPressed();
                 return true;
