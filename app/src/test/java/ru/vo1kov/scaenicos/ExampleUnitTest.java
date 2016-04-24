@@ -1,4 +1,4 @@
-package ru.vo1kov.rxtest;
+package ru.vo1kov.scaenicos;
 
 import org.junit.Test;
 

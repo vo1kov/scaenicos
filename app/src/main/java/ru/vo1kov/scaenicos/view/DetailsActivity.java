@@ -1,4 +1,4 @@
-package ru.vo1kov.rxtest;
+package ru.vo1kov.scaenicos.view;
 
 //import android.app.ActionBar;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import ru.vo1kov.scaenicos.R;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -27,6 +29,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         ImageView cover = (ImageView) findViewById(R.id.imageViewBigCover);
         TextView textViewBio = (TextView) findViewById(R.id.textViewBio);
+        TextView textViewCount = (TextView) findViewById(R.id.textViewCount);
+        TextView textViewGenres = (TextView) findViewById(R.id.textViewGenres);
 
 
         Picasso.with(getApplicationContext())
@@ -36,8 +40,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         if (textViewBio != null)
             textViewBio.setText(intent.getExtras().getString("bio"));
-        ((TextView) findViewById(R.id.textViewCount)).setText(intent.getExtras().getString("count").replace(", ", " - "));
-        ((TextView) findViewById(R.id.textViewGenres)).setText(intent.getExtras().getString("genres"));
+        String count = intent.getExtras().getString("count");
+
+
+        if ((textViewCount != null) && (count != null))
+            textViewCount.setText(count.replace(", ", " • "));
+
+        if (textViewGenres != null)
+            textViewGenres.setText(intent.getExtras().getString("genres"));
 
     }
 

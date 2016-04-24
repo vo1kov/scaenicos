@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    tools:context="ru.vo1kov.rxtest.MainActivity">
+    tools:context=".view.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"

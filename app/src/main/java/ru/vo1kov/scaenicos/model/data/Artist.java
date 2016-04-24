@@ -1,5 +1,5 @@
 
-package ru.vo1kov.rxtest;
+package ru.vo1kov.scaenicos.model.data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
